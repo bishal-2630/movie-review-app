@@ -1,0 +1,99 @@
+.movie-section {
+    margin-bottom: 3rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+
+}
+
+.section-title {
+    font-size: 1.8rem;
+    margin: 0;
+    color: #333;
+    font-weight: bold;
+}
+
+.view-all-button {
+    color: #e50914;
+    text-decoration: none;
+    border: 2px solid #e50914;
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.view-all-button:hover {
+    background: #e50914;
+    color: white;
+    transform: translateX(5px);
+}
+
+.horizontal-scroll-container {
+    overflow-x: auto;
+    padding: 0 1rem;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-thumb {
+    background: #e50914;
+    border-radius: 4px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.movies-horizontal {
+    display: flex;
+    gap: 1.5rem;
+    padding: 0.5rem 0;
+    min-width: min-content;
+}
+
+.movies-horizontal .movie-card {
+    min-width: 200px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.movies-horizontal .movie-card:hover {
+    transform: translateY(-5px);
+}
+
+@media (max-width: 768px) {
+    .section-header {
+        padding: 0 0.5rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .horizontal-scroll-container {
+        padding: 0 0.5rem;
+    }
+
+    .movies-horizontal .movie-card {
+        min-width: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .movies-horizontal .movie-card {
+        min-width: 220px;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+    }
+}

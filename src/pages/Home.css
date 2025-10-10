@@ -1,0 +1,128 @@
+.home-page {
+    padding: 0;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.search-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.search-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: white;
+    font-weight: bold;
+}
+
+.search-header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.sections-container {
+    padding: 0 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 0 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.loading,
+.error {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    padding: 2rem;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #e50914;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-top: 1rem;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.retry-button,
+.refresh-button {
+    background: #e50914;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.retry-button:hover,
+.refresh-button:hover {
+    background: #f40612;
+    transform: translateY(-2px);
+    box-shadow: 0 15px 15px rgba(229, 9, 20, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sections-container {
+        padding: 0 1rem;
+    }
+
+    .movies-grid {
+        padding: 0 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+
+    .search-header {
+        padding: 2rem 1rem;
+    }
+
+    .search-header h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .sections-container {
+        padding: 0 0.5rem;
+    }
+
+    .movies-grid {
+        padding: 0 0.5rem;
+        grid-template-columns: 1fr;
+    }
+
+    .search-header h1 {
+        font-size: 1.8rem;
+    }
+}
