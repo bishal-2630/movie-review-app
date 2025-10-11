@@ -1,30 +1,24 @@
 import React from "react";
+import './MovieCard.css';
+
 const MovieCard = ({ movie }) => {
     const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
+
+    const title = movie.title || movie.name;
+    const posterPath = movie.poster_path;
     return (
-        <div className="movie-card">
-            {movie.poster_path && (
-                <img src={`${imageBaseUrl}${movie.poster_path}`}
-                    alt={movie.title}
-                    className="movie-poster"
-                />
-            )}
-            <h3>{movie.title}</h3>
-            <p className="movie-year">
-                {movie.release_date ? new Date(movie.release_date).getFullYear() : 'TBA'}
-            </p>
-            <div className="movie-rating">
-                <span>{movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}/10</span>
+        <div className="movie-card" >
+            <div className="movie-poster-container">
+                {posterPath && (
+                    <img src={`${imageBaseUrl}${posterPath}`}
+                        alt={title}
+                        className="movie-poster"
+                    />
+                )}
             </div>
-            <p className="movie-overview">
-                {movie.overview ?
-                    (movie.overview.length > 150 ?
-                        `${movie.overview.substring(0, 150)}...` :
-                        movie.overview
-                    ) : 'No descriptions available'}
-            </p>
-            <button>Add Review</button>
+            <h3 className="movie-title">{title}</h3>
         </div>
     );
 };
+
 export default MovieCard;

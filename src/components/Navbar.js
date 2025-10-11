@@ -1,22 +1,9 @@
-import React, { useState } from 'react';
+// Navbar.js - Fixed version
+import React from 'react';
 import { Link } from 'react-router-dom';
-import './Navbar.css'; // Optional: for styling
+import './Navbar.css';
 
-const Navbar = () => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [resultsCount, setResultsCount] = useState(0);
-
-    const onSearchChange = (value) => {
-        setSearchTerm(value);
-        // You can update resultsCount here based on search results
-        // setResultsCount(filteredResults.length);
-    };
-
-    const onClearSearch = () => {
-        setSearchTerm('');
-        setResultsCount(0);
-    };
-
+const Navbar = ({ searchTerm, onSearchChange, onClearSearch, resultsCount }) => {
     return (
         <nav className="navbar">
             <div className="nav-brand">
@@ -47,7 +34,6 @@ const Navbar = () => {
 
                 <span className="results-count">{resultsCount} {resultsCount === 1 ? 'result' : 'results'} </span>
             </div>
-
         </nav >
     );
 };

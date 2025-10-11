@@ -1,12 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MovieCarousel from "../components/MovieCarousel";
 import MovieSection from "../components/MovieSection";
 import './Home.css';
 import MovieCard from "../components/MovieCard";
 
-const Home = ({ movies, loading, error, fetchMovies,
-    searchTerm }) => {
-    if (loading) {
+const Home = ({ movies, loading, error, fetchMovies, searchTerm }) => {
+    const [tvSeries, setTvSeries] = useState([]);
+    const [tvLoading, setTvLoading] = useState(false);
+
+    const API_KEY = '9bcdb1078fa24262529f44ab427f223e';
+
+
+    useEffect(() => {
+        const fetchTvSeries = async () => {
+            try {
+                setTvLoading(true);
+                const response = await fetch(`https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&language=en-US&page=1`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch TV series');
+                }
+                const data = await response.json();
+                setTvSeries(data.results || []);
+            } catch (error) {
+                console.error('Error fetching TV series:', error);
+                setTvSeries([]);
+            } finally {
+                setTvLoading(false);
+            }
+        };
+
+        if (!searchTerm) {
+            fetchTvSeries();
+        }
+    }, [searchTerm, API_KEY]);
+
+    if (loading && !searchTerm) {
         return (
             <div className="loading">
                 <h2>Loading Movies...</h2>
@@ -23,31 +51,43 @@ const Home = ({ movies, loading, error, fetchMovies,
             </div>
         );
     }
+    const safeMovies = Array.isArray(movies) ? movies : [];
+    const safeTvSeries = Array.isArray(tvSeries) ? tvSeries : [];
 
-    const topMovies = [...movies].sort((a, b) => b.vote_average - a.vote_average).slice(0, 5);
+    const topMovies = [...safeMovies].sort((a, b) => b.vote_average - a.vote_average).slice(0, 5);
 
-    const suggestions = [...movies].sort(() => Math.random() - 0.5)
-        .slice(0, 8);
-    const latestMovies = [...movies].sort((a, b) => new Date(b.release_date) - new Date(a.release_date)).slice(0, 8);
-    const tvSeries = [...movies].sort(() => Math.random() - 0.5)
-        .slice(0, 8);
+    const getSectionMovies = (sourceMovies, count = 8) => {
+        const safeSource = Array.isArray(sourceMovies) ? sourceMovies : [];
+        const shuffled = [...safeSource].sort(() => Math.random() - 0.5);
+        if (shuffled.length < count) {
+            const repeatedMovies = [];
+            while (repeatedMovies.length < count) {
+                repeatedMovies.push(...shuffled);
+            }
+            return repeatedMovies.slice(0, count);
+        }
+        return shuffled.slice(0, count);
+    };
+
+    const suggestions = getSectionMovies([...safeMovies], 8);
+    const latestMovies = getSectionMovies([...safeMovies], 8);
+    const tvSeriesData = getSectionMovies([...safeTvSeries], 8);
+
     if (searchTerm) {
-
-
         return (
             <div className="home-page">
                 <header className="search-header">
                     <h1>Search Results for "{searchTerm}"
                     </h1>
 
-                    <p>Found {movies.length} movies</p>
+                    <p>Found {safeMovies.length} movies</p>
                     <button onClick={fetchMovies} className="refresh-button">
                         Show Popular Movies
                     </button>
                 </header>
 
-                <div className="movie-grid">
-                    {movies.map((movie) => (
+                <div className="movies-grid">
+                    {safeMovies.map((movie) => (
                         <MovieCard key={movie.id} movie={movie} />
                     ))}
 
@@ -64,22 +104,30 @@ const Home = ({ movies, loading, error, fetchMovies,
                 <MovieSection
                     title="Suggestions For You"
                     movies={suggestions}
-                    viewAllLink="/suggestions"
                 />
 
                 <MovieSection
                     title="Latest Movies"
                     movies={latestMovies}
-                    viewAllLink="/movies"
                 />
 
-                <MovieSection
-                    title="TV Series"
-                    movies={tvSeries}
-                    viewAllLink="/tv-series"
-                />
+
+                {!tvLoading ? (
+                    tvSeriesData.length > 0 && (
+                        <MovieSection
+                            title="TV Series"
+                            movies={tvSeriesData}
+                        />
+                    )
+                ) : (
+                    <div className="loading">
+                        <h2>Loading TV Series...</h2>
+                        <div className="spinner"></div>
+                    </div>
+                )}
             </div>
         </div>
     );
 };
+
 export default Home;

@@ -1,41 +1,47 @@
 .navbar {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: #190707;
+    background-color: #0a0a0a;
     color: white;
+    width: 100%;
+    position: relative;
 }
 
 .nav-brand a {
-    color: white;
-    text-decoration: none;
+    color: #e50914;
     font-size: 2rem;
+    text-decoration: none;
     font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .nav-links {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     display: flex;
-    gap: 1rem;
-    margin-left: 10rem;
+    gap: 2rem;
+    margin: 0 auto;
 }
 
 .nav-link {
-    color: aliceblue;
+    color: #ffffff;
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 5px;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 1.1rem;
 }
 
 .nav-link:hover {
     background-color: #34495e;
+    color: white;
+    transform: translateY(-2px);
 }
 
 .search-container {
     display: flex;
-    margin-left: auto;
     gap: 12px;
     align-items: center;
     background: rgba(255, 255, 255, 0.1);
@@ -68,7 +74,7 @@
 }
 
 .clear-button {
-    background: #e74c3c;
+    background: #e50914;
     color: white;
     font-size: 16px;
     border: none;
@@ -107,7 +113,7 @@
 }
 
 .results-count:hover {
-    background: rgba(52, 152, 219, 1);
+    background: rgba(229, 9, 20, 1);
     transform: translateY(-1px);
 }
 
@@ -116,26 +122,44 @@
     pointer-events: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .navbar {
         flex-direction: column;
         gap: 1rem;
         padding: 1rem;
     }
 
+    .nav-links {
+        order: 3;
+        margin: 1rem 0 0 0;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
     .search-container {
+        order: 2;
         width: 100%;
         justify-content: center;
     }
 
+    .nav-brand {
+        order: 1;
+    }
+}
+
+@media (max-width: 768px) {
     .search-input {
         width: 200px;
     }
 
-    .nav-links {
-        gap: 1rem;
-        flex-wrap: wrap;
-        justify-content: center;
+    .nav-brand a {
+        font-size: 1.8rem;
+    }
+
+    .nav-link {
+        font-size: 1rem;
+        padding: 0.4rem 0.8rem;
     }
 }
 
@@ -147,5 +171,18 @@
     .results-count {
         font-size: 0.75rem;
         padding: 3px 8px;
+    }
+
+    .nav-brand a {
+        font-size: 1.5rem;
+    }
+
+    .nav-links {
+        gap: 0.5rem;
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.6rem;
     }
 }
