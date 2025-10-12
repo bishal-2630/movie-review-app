@@ -1,0 +1,109 @@
+.movie-section {
+    margin-bottom: 3rem;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    transform: translateX(-50%);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0 2rem;
+    width: 100vw;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    margin: 0;
+    color: white;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+    border-left: 4px solid #e50914;
+    padding-left: 12px;
+}
+
+
+/*Grid-layout*/
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.8rem;
+    padding: 0 2rem;
+    width: 100vw;
+    max-width: 100vw;
+    justify-items: stretch;
+    align-items: start;
+    box-sizing: border-box;
+}
+
+.movies-grid .movie-card {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.movies-grid .movie-card:nth-child(n+17) {
+    display: none;
+}
+
+
+/* Responsive Design */
+
+@media (max-width: 1600px) {
+    .movies-grid {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        gap: 0.8rem;
+    }
+}
+
+@media (max-width: 1400px) {
+    .movies-grid {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 0.7rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .movies-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 0.7rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .movies-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 0.6rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .movies-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .movies-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.4rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .movies-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.3rem;
+    }
+}
