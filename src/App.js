@@ -1,8 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import Movies from './pages/Movies';
+import TVSeries from './pages/TVSeries';
+import TopIMDB from './pages/TopIMDB';
+import MovieDetail from './pages/MovieDetail';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import {
+    Route, Routes
+} from 'react-router-dom';
 
 function App() {
     const [movies, setMovies] = useState([]);
@@ -92,6 +98,10 @@ function App() {
                         searchTerm={searchTerm}
                     />
                 } />
+                <Route path='/movies' element={<Movies />} />
+                <Route path='/tv-series' element={<TVSeries />} />
+                <Route path='/top-imdb' element={<TopIMDB />} />
+                <Route path="/movie/:id" element={<MovieDetail />} />
             </Routes>
         </div>
     );

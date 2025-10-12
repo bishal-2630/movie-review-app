@@ -52,7 +52,7 @@
     max-width: 100%;
 }
 
-.movies-grid>*:nth-child(n+9) {
+.movies-grid .movie-card:nth-child(n+17) {
     display: none;
 }
 

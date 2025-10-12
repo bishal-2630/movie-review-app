@@ -56,7 +56,7 @@ const Home = ({ movies, loading, error, fetchMovies, searchTerm }) => {
 
     const topMovies = [...safeMovies].sort((a, b) => b.vote_average - a.vote_average).slice(0, 5);
 
-    const getSectionMovies = (sourceMovies, count = 8) => {
+    const getSectionMovies = (sourceMovies, count = 16) => {
         const safeSource = Array.isArray(sourceMovies) ? sourceMovies : [];
         const shuffled = [...safeSource].sort(() => Math.random() - 0.5);
         if (shuffled.length < count) {
@@ -69,9 +69,9 @@ const Home = ({ movies, loading, error, fetchMovies, searchTerm }) => {
         return shuffled.slice(0, count);
     };
 
-    const suggestions = getSectionMovies([...safeMovies], 8);
-    const latestMovies = getSectionMovies([...safeMovies], 8);
-    const tvSeriesData = getSectionMovies([...safeTvSeries], 8);
+    const suggestions = getSectionMovies([...safeMovies], 16);
+    const latestMovies = getSectionMovies([...safeMovies], 16);
+    const tvSeriesData = getSectionMovies([...safeTvSeries], 16);
 
     if (searchTerm) {
         return (
