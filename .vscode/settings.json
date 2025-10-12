@@ -11,5 +11,12 @@
     "emmet.triggerExpansionOnTab": true,
     "javascript.suggest.autoImports": true,
     "javascript.updateImportsOnFileMove.enabled": "always",
-    "typescript.suggest.autoImports": true
+    "typescript.suggest.autoImports": true,
+    // Add these Copilot-specific settings:
+    "github.copilot.enable": {
+        "*": true
+    },
+    "github.copilot.editor.enableAutoCompletions": true,
+    "github.copilot.inlineSuggest.enable": true,
+    "editor.inlineSuggest.suppressSuggestions": false
 }
