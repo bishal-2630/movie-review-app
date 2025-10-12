@@ -1,0 +1,14 @@
+{
+    "editor.inlineSuggest.enabled": true,
+    "editor.quickSuggestions": {
+        "other": "on",
+        "comments": "off",
+        "strings": "off"
+    },
+    "editor.suggestOnTriggerCharacters": true,
+    "editor.wordBasedSuggestions": "allDocuments",
+    "editor.suggestSelection": "recentlyUsed",
+    "github.copilot.enable": {
+        "*": true
+    }
+}
