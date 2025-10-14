@@ -6,6 +6,7 @@ import TVSeries from './pages/TvSeries';
 import TopIMDB from './pages/TopImDb';
 import MovieDetail from './pages/MovieDetail';
 import { AuthProvider } from './context/AuthContext';
+import Profile from './pages/Profile';
 import './App.css';
 import {
     Route, Routes
@@ -104,6 +105,7 @@ function App() {
                     <Route path='/tv-series' element={<TVSeries />} />
                     <Route path='/top-imdb' element={<TopIMDB />} />
                     <Route path="/movie/:id" element={<MovieDetail />} />
+                    <Route path='/profile' element={<Profile />} />
                 </Routes>
             </div>
         </AuthProvider>
