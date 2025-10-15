@@ -20,47 +20,44 @@ const MovieDetail = () => {
     const API_KEY = '9bcdb1078fa24262529f44ab427f223e';
 
 
-    useEffect(() => {
-        const fetchMovieDetails = async () => {
-            try {
-                setLoading(true);
 
-                const movieResponse = await fetch(
-                    `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`
-                );
+    const fetchMovieDetails = useCallback(async () => {
+        try {
+            setLoading(true);
 
-                if (!movieResponse.ok) {
-                    throw new Error('Failed to fetch movie details');
-                }
+            const movieResponse = await fetch(
+                `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`
+            );
 
-                const movieData = await movieResponse.json();
-                setMovie(movieData);
-
-                const castResponse = await fetch(
-                    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`
-                );
-
-                if (castResponse.ok) {
-                    const castData = await castResponse.json();
-                    setCast(castData.cast.slice(0, 10));
-                }
-
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setLoading(false);
+            if (!movieResponse.ok) {
+                throw new Error('Failed to fetch movie details');
             }
-        };
 
-        fetchMovieDetails();
-    }, [id]);
+            const movieData = await movieResponse.json();
+            setMovie(movieData);
+
+            const castResponse = await fetch(
+                `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`
+            );
+
+            if (castResponse.ok) {
+                const castData = await castResponse.json();
+                setCast(castData.cast.slice(0, 10));
+            }
+
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+    }, [id, API_KEY]);
 
 
     const fetchReviews = useCallback(async () => {
         try {
             setReviewsLoading(true);
             const reviewsData = await reviewAPI.getMovieReviews(id);
-            setReviews(reviewsData.reviews);
+            setReviews(reviewsData.reviews || []);
         } catch (error) {
             console.error('Failed to fetch reviews:', error);
             setReviews([]);
@@ -72,9 +69,10 @@ const MovieDetail = () => {
 
     useEffect(() => {
         if (id) {
+            fetchMovieDetails();
             fetchReviews();
         }
-    }, [id, fetchReviews]);
+    }, [id, fetchMovieDetails, fetchReviews]);
 
     const handleReviewSubmit = (newReview) => {
         setReviews(prev => [newReview, ...prev]);

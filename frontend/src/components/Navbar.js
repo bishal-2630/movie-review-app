@@ -11,13 +11,14 @@ const Navbar = ({ searchTerm, onSearchChange, onClearSearch, resultsCount }) => 
     const [authMode, setAuthMode] = useState('login');
 
     const handleSignInClick = (mode = 'login') => {
-        setAuthMode(mode);
+        setAuthMode('login');
         setShowAuthModal(true);
     };
+
+
     const handleLogout = () => {
         logout();
     };
-
 
     return (
         <>

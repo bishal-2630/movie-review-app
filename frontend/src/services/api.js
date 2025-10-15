@@ -4,6 +4,8 @@ const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY || '9bcdb1078fa24262529f
 const apiRequest = async (endpoint, options = {}) => {
     const url = `${API_BASE_URL}${endpoint}`;
 
+    console.log('Making API request to:', url);
+
     const config = {
         headers: {
             'Content-Type': 'application/json',

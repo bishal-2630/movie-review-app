@@ -1,9 +1,8 @@
-# app/models/user.py
-from sqlalchemy import Column, Integer, String, DateTime, Text
-from sqlalchemy.sql import func
-from sqlalchemy.orm import relationship
 
-from app.utils.database import Base
+from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy.sql import func
+from app.core.database import Base
+
 
 class User(Base):
     __tablename__ = "users"
@@ -13,5 +12,6 @@ class User(Base):
     username = Column(String(100), unique=True, index=True, nullable=False)
     hashed_password = Column(String(255), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
     
-    reviews = relationship("Review", back_populates="user")
+  

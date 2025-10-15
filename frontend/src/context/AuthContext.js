@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (userData) => {
         try {
-            const response = await authAPI.register(userData);
+            await authAPI.register(userData);
 
             const loginResponse = await login(userData.email, userData.password);
             return loginResponse;

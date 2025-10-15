@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import MovieCarousel from "../components/MovieCarousel";
 import MovieSection from "../components/MovieSection";
 import './Home.css';
@@ -11,28 +11,28 @@ const Home = ({ movies, loading, error, fetchMovies, searchTerm }) => {
     const API_KEY = '9bcdb1078fa24262529f44ab427f223e';
 
 
-    useEffect(() => {
-        const fetchTvSeries = async () => {
-            try {
-                setTvLoading(true);
-                const response = await fetch(`https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&language=en-US&page=1`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch TV series');
-                }
-                const data = await response.json();
-                setTvSeries(data.results || []);
-            } catch (error) {
-                console.error('Error fetching TV series:', error);
-                setTvSeries([]);
-            } finally {
-                setTvLoading(false);
+    const fetchTvSeries = useCallback(async () => {
+        try {
+            setTvLoading(true);
+            const response = await fetch(`https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&language=en-US&page=1`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch TV series');
             }
-        };
+            const data = await response.json();
+            setTvSeries(data.results || []);
+        } catch (error) {
+            console.error('Error fetching TV series:', error);
+            setTvSeries([]);
+        } finally {
+            setTvLoading(false);
+        }
+    }, [API_KEY]);
 
+    useEffect(() => {
         if (!searchTerm) {
             fetchTvSeries();
         }
-    }, [searchTerm, API_KEY]);
+    }, [searchTerm, fetchTvSeries]);
 
     if (loading && !searchTerm) {
         return (
