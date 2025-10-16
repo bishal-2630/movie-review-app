@@ -1,3 +1,4 @@
+// src/components/ReviewForm.js
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { reviewAPI } from '../services/api';
@@ -28,30 +29,47 @@ const ReviewForm = ({ movie, onReviewSubmit, onCancel }) => {
 
         if (!isAuthenticated) {
             setError('Please login to submit a review');
-        }
-
-        if (!formData.title.trim() || !formData.comment.trim()) {
-            alert('Please fill in all fields');
             return;
         }
+
+        // Validation
+        if (!formData.title.trim() || !formData.comment.trim()) {
+            setError('Please fill in all fields');
+            return;
+        }
+
+        if (formData.rating < 1 || formData.rating > 5) {
+            setError('Please select a valid rating (1-5)');
+            return;
+        }
+
         setIsSubmitting(true);
         setError('');
 
         try {
+            console.log('Submitting review data:', {
+                movie_id: movie.id,
+                movie_title: movie.title,
+                title: formData.title,
+                rating: formData.rating,
+                comment: formData.comment
+            });
+
             const reviewData = {
-                movieId: movie.id,
-                movieTitle: movie.title,
+                movie_id: movie.id,
+                movie_title: movie.title,
                 title: formData.title,
                 rating: formData.rating,
                 comment: formData.comment
             };
 
             const response = await reviewAPI.createReview(reviewData);
+            console.log('Review submitted successfully:', response);
 
-
+            // Reset form
             setFormData({ title: '', rating: 5, comment: '' });
-            setError('');
 
+            // Call success callback
             if (onReviewSubmit) {
                 onReviewSubmit(response);
             }
@@ -64,32 +82,30 @@ const ReviewForm = ({ movie, onReviewSubmit, onCancel }) => {
     };
 
     const ratingOptions = [1, 2, 3, 4, 5];
+
     return (
         <div className="review-form-overlay">
             <div className="review-form-container">
                 <div className="review-form-header">
-                    <h2>Write a review</h2>
-                    <p>for <strong>{movie.title}</strong></p>
-                    {isAuthenticated && (
-                        <p className="user-info">Posting as: {user?.username}</p>
-                    )}
-
-                    <button button className="close-button" onClick={onCancel}>×</button>
+                    <div>
+                        <h2>Write a review</h2>
+                        <p>for <strong>{movie?.title || 'Unknown Movie'}</strong></p>
+                        {isAuthenticated && user && (
+                            <p className="user-info">Posting as: {user.username}</p>
+                        )}
+                    </div>
+                    <button className="close-button" onClick={onCancel}>×</button>
                 </div>
 
-                {isAuthenticated ? (
-                    <form onSubmit={handleSubmit} className="review-form">
-                    </form>
-                ) : (
-                    <div div className="auth-required">
-                        <p>You need to be logged into write a review</p>
+                {!isAuthenticated ? (
+                    <div className="auth-required">
+                        <p>You need to be logged in to write a review</p>
                         <button className="login-prompt-button" onClick={onCancel}>
                             Go to Login
                         </button>
                     </div>
-                )}
-                {isAuthenticated && (
-                    <form form onSubmit={handleSubmit} className="review-form">
+                ) : (
+                    <form onSubmit={handleSubmit} className="review-form">
                         {error && (
                             <div className="error-message">
                                 {error}
@@ -97,7 +113,7 @@ const ReviewForm = ({ movie, onReviewSubmit, onCancel }) => {
                         )}
 
                         <div className="form-group">
-                            <label htmlFor="rating">Your Rating*</label>
+                            <label>Your Rating*</label>
                             <div className="rating-selector">
                                 {ratingOptions.map(stars => (
                                     <label key={stars} className="rating-option">
@@ -107,6 +123,7 @@ const ReviewForm = ({ movie, onReviewSubmit, onCancel }) => {
                                             value={stars}
                                             checked={formData.rating === stars}
                                             onChange={handleChange}
+                                            disabled={isSubmitting}
                                         />
                                         <span className="rating-stars">
                                             {'⭐'.repeat(stars)}
@@ -116,6 +133,7 @@ const ReviewForm = ({ movie, onReviewSubmit, onCancel }) => {
                                 ))}
                             </div>
                         </div>
+
                         <div className="form-group">
                             <label htmlFor="title">Review Title*</label>
                             <input
@@ -129,7 +147,6 @@ const ReviewForm = ({ movie, onReviewSubmit, onCancel }) => {
                                 required
                                 disabled={isSubmitting}
                             />
-
                             <span className="char-count">{formData.title.length}/100</span>
                         </div>
 
@@ -146,7 +163,7 @@ const ReviewForm = ({ movie, onReviewSubmit, onCancel }) => {
                                 required
                                 disabled={isSubmitting}
                             />
-                            <span className="char-count">{formData.comment.length}/100</span>
+                            <span className="char-count">{formData.comment.length}/1000</span>
                         </div>
 
                         <div className="form-actions">
@@ -156,7 +173,7 @@ const ReviewForm = ({ movie, onReviewSubmit, onCancel }) => {
                                 className="cancel-button"
                                 disabled={isSubmitting}
                             >
-                                cancel
+                                Cancel
                             </button>
                             <button
                                 type="submit"
@@ -165,7 +182,8 @@ const ReviewForm = ({ movie, onReviewSubmit, onCancel }) => {
                             >
                                 {isSubmitting ? (
                                     <>
-                                        <div className="spinner-small"></div>Submitting...
+                                        <div className="spinner-small"></div>
+                                        Submitting...
                                     </>
                                 ) : (
                                     'Submit Review'
@@ -174,11 +192,9 @@ const ReviewForm = ({ movie, onReviewSubmit, onCancel }) => {
                         </div>
                     </form>
                 )}
-            </div >
-        </div >
+            </div>
+        </div>
     );
 };
 
 export default ReviewForm;
-
-

@@ -283,3 +283,61 @@
         font-size: 1.3rem;
     }
 }
+
+.error-message {
+    background: rgba(229, 9, 20, 0.1);
+    border: 1px solid #e50914;
+    color: #e50914;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.auth-required {
+    text-align: center;
+    padding: 2rem;
+    color: #95a5a6;
+}
+
+.auth-required p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.login-prompt-button {
+    background: #e50914;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.login-prompt-button:hover {
+    background: #f40612;
+    transform: translateY(-2px);
+}
+
+.user-info {
+    color: #95a5a6;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Ensure proper spacing for the header content */
+.review-form-header>div {
+    flex: 1;
+}
+
+/* Rating option selected state */
+.rating-option input:checked+.rating-stars {
+    color: #ffd700;
+}
+
+.rating-option input:checked {
+    background: #e50914;
+}
