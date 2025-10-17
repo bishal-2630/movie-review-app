@@ -28,11 +28,20 @@ const Navbar = ({ searchTerm, onSearchChange, onClearSearch, resultsCount, isSea
     };
 
     const handleHomeClick = () => {
-        onClearSearch(); // This will clear search and fetch movies
+        // Clear search first
+        if (onClearSearch) {
+            onClearSearch();
+        }
+
         if (location.pathname !== '/') {
             navigate('/');
         } else {
+
             window.scrollTo(0, 0);
+
+            if (window.location.search.includes('search')) {
+                window.history.replaceState({}, '', '/');
+            }
         }
     };
 

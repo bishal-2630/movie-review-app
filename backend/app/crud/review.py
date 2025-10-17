@@ -6,7 +6,11 @@ from app.schemas.review import ReviewCreate
 
 def create_review(db: Session, review: ReviewCreate, user_id: int) -> Review:
     db_review = Review(
-        **review.dict(),
+        movie_id=review.movie_id,
+        movie_title=review.movie_title, 
+        title=review.title,
+        rating=review.rating,
+        comment=review.comment,
         user_id=user_id
     )
     db.add(db_review)

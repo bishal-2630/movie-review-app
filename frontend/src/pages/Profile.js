@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { reviewAPI } from "../services/api";
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './Profile.css';
 
 const Profile = () => {
@@ -9,6 +10,7 @@ const Profile = () => {
     const [userReviews, setUserReviews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const fetchUserReviews = async () => {
         try {
@@ -35,6 +37,11 @@ const Profile = () => {
             }
         }
     };
+
+    const handleBackToHome = () => {
+        navigate('/');
+    };
+
     useEffect(() => {
         if (user) {
             fetchUserReviews();
@@ -46,8 +53,10 @@ const Profile = () => {
             <div className="profile-page">
                 <div className="not-logged-in">
                     <h2>Please login to view your profile</h2>
-                    <p>You need to be authenticated to acces this page.</p>
-                    <Link to="/" className="home-button">Go to Home</Link>
+                    <p>You need to be authenticated to access this page.</p>
+                    <button onClick={handleBackToHome} className="home-button">
+                        Back to Home
+                    </button>
                 </div>
             </div>
         );
@@ -55,6 +64,9 @@ const Profile = () => {
     return (
         <div className="profile-page">
             <div className="profile-header">
+                <button onClick={handleBackToHome} className="back-home-button">
+                    ← Back to Home
+                </button>
                 <h1>My Profile</h1>
                 <button onClick={logout} className="logout-button">
                     Logout</button>

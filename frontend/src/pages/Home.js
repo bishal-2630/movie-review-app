@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import MovieCarousel from "../components/MovieCarousel";
 import MovieSection from "../components/MovieSection";
 import './Home.css';
@@ -7,6 +8,7 @@ import MovieCard from "../components/MovieCard";
 const Home = ({ movies, loading, error, fetchMovies, searchTerm }) => {
     const [tvSeries, setTvSeries] = useState([]);
     const [tvLoading, setTvLoading] = useState(false);
+    const location = useLocation();
 
     const API_KEY = '9bcdb1078fa24262529f44ab427f223e';
 
@@ -34,7 +36,15 @@ const Home = ({ movies, loading, error, fetchMovies, searchTerm }) => {
         }
     }, [searchTerm, fetchTvSeries]);
 
-    if (loading && !searchTerm) {
+    useEffect(() => {
+
+        if (location.pathname === '/' && movies.length > 0 && loading) {
+
+            console.log('Home page loaded with movies');
+        }
+    }, [location.pathname, movies.length, loading]);
+
+    if (loading && movies.length === 0 && !searchTerm) {
         return (
             <div className="loading">
                 <h2>Loading Movies...</h2>
@@ -42,7 +52,7 @@ const Home = ({ movies, loading, error, fetchMovies, searchTerm }) => {
             </div>
         );
     }
-    if (error) {
+    if (error && movies.length === 0) {
         return (
             <div className="error">
                 <h2>Something went wrong</h2>

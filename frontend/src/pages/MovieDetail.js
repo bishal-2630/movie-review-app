@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ReviewForm from '../components/ReviewForm';
 import { reviewAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -7,6 +7,7 @@ import './MovieDetail.css';
 
 const MovieDetail = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -67,6 +68,10 @@ const MovieDetail = () => {
 
     }, [id]);
 
+    const handleBackToHome = useCallback(() => {
+        navigate('/', { replace: true });
+    }, [navigate]);
+
     useEffect(() => {
         if (id) {
             fetchMovieDetails();
@@ -88,6 +93,20 @@ const MovieDetail = () => {
         setShowReviewForm(true);
     };
 
+    useEffect(() => {
+        const handleEscapeKey = (event) => {
+            if (event.key === 'Escape') {
+                handleBackToHome();
+            }
+        };
+
+        document.addEventListener('keydown', handleEscapeKey);
+
+        return () => {
+            document.removeEventListener('keydown', handleEscapeKey);
+        };
+    }, [handleBackToHome]);
+
     if (loading) {
         return (
             <div className="movie-detail-page">
@@ -105,7 +124,9 @@ const MovieDetail = () => {
                 <div className="error">
                     <h2>Something went wrong</h2>
                     <p>{error}</p>
-                    <Link to="/" className="back-button">Back to Home</Link>
+                    <button onClick={handleBackToHome} className="back-button">
+                        Back to Home
+                    </button>
                 </div>
             </div>
         );
@@ -116,7 +137,9 @@ const MovieDetail = () => {
             <div className="movie-detail-page">
                 <div className="error">
                     <h2>Movie not found</h2>
-                    <Link to="/" className="back-button">Back to Home</Link>
+                    <button onClick={handleBackToHome} className="back-button">
+                        Back to Home
+                    </button>
                 </div>
             </div>
         );
@@ -135,7 +158,12 @@ const MovieDetail = () => {
                 }}
             >
                 <div className="backdrop-content">
-                    <Link to="/" className="back-button">← Back to Home</Link>
+                    <button
+                        className="back-button"
+                        onClick={handleBackToHome}
+                    >
+                        ← Back to Home
+                    </button>
 
                     <div className="movie-hero">
                         <div className="poster-section">
